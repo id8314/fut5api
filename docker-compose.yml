@@ -9,4 +9,4 @@ services:
     ports:
       - 5110:5110
     volumes:
-        - "C:/Code/Fut5_docker/fut5Api:/data"
+        - "C:/Code/Fut5_docker:/data"

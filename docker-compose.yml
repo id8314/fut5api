@@ -10,3 +10,6 @@ services:
       - 5110:5110
     volumes:
         - "C:/Code/Fut5_docker:/data"
+
+# Let’s Encrypt certificates with .Net Core and Docker
+# https://www.linkedin.com/pulse/how-get-free-lets-encrypt-certificates-net-core-docker-carlos-carre%C3%B1o/

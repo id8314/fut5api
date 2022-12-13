@@ -16,25 +16,25 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
-// using Microsoft.OpenApi.Models; // necessário se quisermos swagger
+using Microsoft.OpenApi.Models; // necessário se quisermos swagger
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// // to publish as openApi so we can add references from vstudio 2022
-// // https://dotnetthoughts.net/openapi-support-for-aspnetcore-minimal-webapi/
-// builder.Services.AddEndpointsApiExplorer();
-// builder.Services.AddSwaggerGen(setup => setup.SwaggerDoc("v1", new OpenApiInfo()
-// {
-//     Description = "Fut5 Minimal Api",
-//     Title = "fut5 Api",
-//     Version = "v1",
-//     Contact = new OpenApiContact()
-//     {
-//         Name = "Z",
-//         Url = new Uri("https://z.primecog.com/MemoryGame/")
-//     }
-// }));
+// to publish as openApi so we can add references from vstudio 2022
+// https://dotnetthoughts.net/openapi-support-for-aspnetcore-minimal-webapi/
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(setup => setup.SwaggerDoc("v1", new OpenApiInfo()
+{
+    Description = "Fut5 Minimal Api",
+    Title = "fut5 Api",
+    Version = "v1",
+    Contact = new OpenApiContact()
+    {
+        Name = "Z",
+        Url = new Uri("https://z.primecog.com/MemoryGame/")
+    }
+}));
 
 // CORS policy
 builder.Services.AddCors(options =>
@@ -87,9 +87,9 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
-// // to publish as openApi so we can add references from vstudio 2022
-// // https://dotnetthoughts.net/openapi-support-for-aspnetcore-minimal-webapi/
-// app.UseSwagger();
+// to publish as openApi so we can add references from vstudio 2022
+// https://dotnetthoughts.net/openapi-support-for-aspnetcore-minimal-webapi/
+app.UseSwagger();
 
 app.MapGet("/", () => "Hello World!");
 
@@ -154,10 +154,9 @@ app.MapPost("/login", [AllowAnonymous] async (
     return;
 }).Produces(StatusCodes.Status200OK).WithName("Login").WithTags("Accounts");
 
-// // to publish as openApi so we can add references from vstudio 2022
-// // https://dotnetthoughts.net/openapi-support-for-aspnetcore-minimal-webapi/
-// app.UseSwaggerUI();
-
+// to publish as openApi so we can add references from vstudio 2022
+// https://dotnetthoughts.net/openapi-support-for-aspnetcore-minimal-webapi/
+app.UseSwaggerUI();
 
 app.UseCors("fut5 origins");
 

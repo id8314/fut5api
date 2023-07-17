@@ -10,7 +10,7 @@ namespace fut5.Data
             _dependency = dbps;
         }
 
-        public async Task<List<Jogo>>JogoSave(String clube, String dataJogo, String dataInscricoes)
+        public async Task<List<Jogo>>JogoSave(String clube, String dataJogo, String dataInscricoes, String campo = "interior")
         {
             var jogos = new List<Jogo>();
             var db_file = _dependency.databasePath;
@@ -22,7 +22,7 @@ namespace fut5.Data
             else
             {
 
-                var jogo = new Jogo(clube, dataJogo, dataInscricoes);
+                var jogo = new Jogo(clube, dataJogo, dataInscricoes, campo);
 
                 await Task.Run(() =>
                 {
@@ -52,18 +52,19 @@ namespace fut5.Data
                             
                             var insertCommand = connection.CreateCommand();
                             insertCommand.Transaction = transaction;
-                            insertCommand.CommandText = "INSERT INTO jogos (dia,clube,horaRegistoInicio,horaRegistoFim) VALUES ($dia,$clube,$horaRegistoInicio,$horaRegistoFim)";
+                            insertCommand.CommandText = "INSERT INTO jogos (dia,clube,horaRegistoInicio,horaRegistoFim, campo) VALUES ($dia,$clube,$horaRegistoInicio,$horaRegistoFim,$campo)";
                             insertCommand.Parameters.AddWithValue("$dia", jogo.DataJogo);
                             insertCommand.Parameters.AddWithValue("$clube", jogo.Clube);
                             insertCommand.Parameters.AddWithValue("$horaRegistoInicio", jogo.DataInscricoes);
                             insertCommand.Parameters.AddWithValue("$horaRegistoFim", jogo.DataInscricoesFim);
+                            insertCommand.Parameters.AddWithValue("$campo", jogo.Campo);
                             insertCommand.ExecuteNonQuery();
 
                             transaction.Commit();
                         }
 
                         var selectCommand = connection.CreateCommand();
-                        selectCommand.CommandText = "SELECT clube,dia,horaRegistoInicio,horaRegistoFim FROM jogos WHERE clube = $clube AND dia = $dia";
+                        selectCommand.CommandText = "SELECT clube,dia,horaRegistoInicio,horaRegistoFim,campo FROM jogos WHERE clube = $clube AND dia = $dia";
                         selectCommand.Parameters.AddWithValue("$clube", jogo.Clube);
                         selectCommand.Parameters.AddWithValue("$dia", jogo.DataJogo);
                         using (var reader = selectCommand.ExecuteReader())
@@ -71,7 +72,7 @@ namespace fut5.Data
                             while (reader.Read())
                             {
                                 jogos.Add(new Jogo(
-                                    reader.GetString(0),reader.GetString(1), reader.GetString(2)
+                                    reader.GetString(0),reader.GetString(1), reader.GetString(2), reader.GetString(4)
                                 ));
                             }
                         }
@@ -155,14 +156,14 @@ namespace fut5.Data
 
                                 var selectCommand = connection.CreateCommand();
                                 selectCommand.CommandText = 
-                                "SELECT clube,dia,horaRegistoInicio,horaRegistoFim FROM jogos " +
+                                "SELECT clube,dia,horaRegistoInicio,horaRegistoFim,campo FROM jogos " +
                                 "WHERE JULIANDAY(date('now'))-JULIANDAY(dia) <= 0 ORDER BY dia";
                                 using (var reader = selectCommand.ExecuteReader())
                                 {
                                     while (reader.Read())
                                     {
                                         jogos.Add(new Jogo(
-                                            reader.GetString(0),reader.GetString(1), reader.GetString(2)
+                                            reader.GetString(0),reader.GetString(1), reader.GetString(2), reader.GetString(4)
                                         ));
                                     }
                                 }

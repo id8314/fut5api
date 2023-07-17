@@ -2,13 +2,15 @@ using System;
 namespace fut5.Data
 {
     public class Jogo
-    {
+    {   
         public string Clube { get; set; } = "";
         public DateTimeOffset DataJogo { get; set; } = DateTime.Today;
         public DateTimeOffset DataInscricoes { get; set; } = DateTime.Today;
         public DateTimeOffset DataInscricoesFim { get; set; } = DateTime.Today;
+        public string Campo { get; set; } = "interior";
         public Jogo() { }
-        public Jogo(String clube, String dataJogo, String dataInscricoes)
+        
+        public Jogo(String clube, String dataJogo, String dataInscricoes, String campo = "interior")
         {
             string[] data1;
             string[] data2;
@@ -25,6 +27,7 @@ namespace fut5.Data
             }
 
             this.Clube = clube;
+            this.Campo = campo;
 
             this.DataJogo = new DateTimeOffset(
                 year : int.Parse(data1[0]),

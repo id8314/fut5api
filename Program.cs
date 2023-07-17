@@ -110,6 +110,7 @@ app.MapGet("/Games", [Authorize(Roles = "admin,user")] async (JogosDatabaseServi
 app.MapGet("/Game/{clube}/{data1}", [Authorize(Roles = "admin,user")] async (string clube, string data1, JogosDatabaseService jogosService) => await jogosService.GetJogo(clube, data1));
 app.MapGet("/GamePresences/{clube}/{data1}", [Authorize(Roles = "admin,user")] async (string clube, string data1, JogosDatabaseService jogosService) => await jogosService.GetPresencas(clube, data1));
 app.MapGet("/GameCreate/{clube}/{data1}/{data2}", [Authorize(Roles = "admin")] async (string clube, string data1, string data2, JogosDatabaseService jogosService) => await jogosService.JogoSave(clube, data1, data2));
+app.MapGet("/GameCreate/{clube}/{data1}/{data2}/{data3}", [Authorize(Roles = "admin")] async (string clube, string data1, string data2, string data3, JogosDatabaseService jogosService) => await jogosService.JogoSave(clube, data1, data2, data3));
 app.MapGet("/GameCancel/{clube}/{data1}", [Authorize(Roles = "admin")] async (string clube, string data1, JogosDatabaseService jogosService) => await jogosService.JogoCancel(clube, data1));
 app.MapGet("/GamePresenceSave/{clube}/{data1}/{email}/{resposta}", [Authorize(Roles = "admin,user")] async (string clube, string data1, string email, int resposta, JogosDatabaseService jogosService) => await jogosService.SavePresenca(clube, data1, email, resposta));
 app.MapGet("/GamesGetFor/{email}", [Authorize(Roles = "admin,user")] async (string email, JogosDatabaseService jogosService) => await jogosService.GetMyGames(email));
